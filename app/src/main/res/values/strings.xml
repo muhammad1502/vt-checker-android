@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">VT Checker</string>
+
+    <!-- This is the text that will appear in the context menu -->
+    <string name="check_on_virustotal">Check on VirusTotal</string>
+
+    <!-- Text for your main launcher activity -->
+    <string name="main_activity_info">
+        "App installed.\n\nTo use:\n1. Select an IP or URL in any app.\n2. Tap the '…' (overflow) menu.\n3. Choose 'Check on VirusTotal'."
+    </string>
+</resources>
