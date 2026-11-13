@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!--
-      No permissions are needed! We are not connecting to the
-      internet ourselves, just sending an Intent to the browser.
+      No permissions, including INTERNET: the app never connects to anything itself.
+      Reports open in the user's browser.
     -->
 
     <application
@@ -18,14 +18,10 @@
         android:theme="@style/Theme.VTChecker"
         tools:targetApi="31">
 
-        <!--
-          ACTIVITY 1: The Launcher Activity
-          This is the activity that runs when you tap the app's icon.
-          It's here so you can see the app in your app drawer.
-        -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -33,18 +29,24 @@
         </activity>
 
         <!--
-          ACTIVITY 2: The Context Menu Action Handler
-          This is the core of your app. It has NO icon.
-          It activates on the ACTION_PROCESS_TEXT intent.
-          The 'android:label' is what the user sees in the menu.
+          "Check on VirusTotal" in the text-selection menu and the Share sheet. The
+          label is what people see there. It is never recreated on rotation or theme
+          changes because it only lives for as long as a dialog, if that.
         -->
         <activity
-            android:name=".ProcessTextActivity"
+            android:name=".CheckActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboard|keyboardHidden|navigation|uiMode|density|fontScale|locale|layoutDirection"
+            android:excludeFromRecents="true"
             android:exported="true"
             android:label="@string/check_on_virustotal"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/Theme.VTChecker.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>

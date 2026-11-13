@@ -1,9 +1,272 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!--
+      One theme for light and dark: the colours come from values/ and values-night/,
+      so both modes are the same design with the tokens swapped.
+    -->
     <style name="Base.Theme.VTChecker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:colorBackground">@color/bg</item>
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="colorSurface">@color/bg</item>
+        <item name="colorOnSurface">@color/text</item>
+        <item name="colorOnSurfaceVariant">@color/text_2</item>
+        <item name="colorSurfaceContainerHigh">@color/panel_bg</item>
+        <item name="colorPrimary">@color/focus</item>
+        <item name="colorOnPrimary">@color/on_focus</item>
+        <item name="colorControlActivated">@color/focus</item>
+        <item name="colorOutline">@color/field_stroke</item>
+        <item name="colorError">@color/error</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/text_2</item>
+        <item name="android:textColorLink">@color/link</item>
+        <item name="android:textColorHighlight">@color/highlight</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.VTChecker.Dialog</item>
+        <item name="textInputStyle">@style/Widget.VTChecker.TextInput</item>
+        <item name="materialButtonStyle">@style/Widget.VTChecker.Button</item>
     </style>
 
     <style name="Theme.VTChecker" parent="Base.Theme.VTChecker" />
+
+    <!-- The menu and Share handler: no window of its own, only an occasional dialog. -->
+    <style name="Theme.VTChecker.Translucent" parent="Theme.VTChecker">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.VTChecker.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurfaceContainerHigh">@color/panel_bg</item>
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="alertDialogStyle">@style/VTChecker.AlertDialog</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.VTChecker.Card</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/VTChecker.DialogTitle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/VTChecker.DialogBody</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.VTChecker.DialogButton.Default</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.VTChecker.DialogButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.VTChecker.DialogButton</item>
+    </style>
+
+    <style name="VTChecker.AlertDialog" parent="MaterialAlertDialog.Material3">
+        <item name="backgroundTint">@color/panel_bg</item>
+    </style>
+
+    <style name="ShapeAppearance.VTChecker.Card" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/card_radius</item>
+    </style>
+
+    <style name="ShapeAppearance.VTChecker.Field" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/field_radius</item>
+    </style>
+
+    <style name="ShapeAppearance.VTChecker.Pill" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="VTChecker.DialogTitle" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.CardTitle</item>
+        <item name="android:textColor">@color/text</item>
+    </style>
+
+    <style name="VTChecker.DialogBody" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Body</item>
+        <item name="android:textColor">@color/text_2</item>
+    </style>
+
+    <!-- Dialog actions are text links (the platform pattern), in the link colour. -->
+    <style name="Widget.VTChecker.DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Button</item>
+        <item name="android:textColor">@color/link</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+    </style>
+
+    <!-- The action a dialog suggests, in semibold like an Apple alert's default button. -->
+    <style name="Widget.VTChecker.DialogButton.Default">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <!--
+      The one button: pill, 48dp, one leading icon, 17sp text. Light theme is Apple
+      blue with white text; dark theme is a light pill with dark text.
+    -->
+    <style name="Widget.VTChecker.Button" parent="Widget.Material3.Button">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:minWidth">188dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.VTChecker.Pill</item>
+        <item name="backgroundTint">@color/button_bg</item>
+        <item name="android:textColor">@color/btn_text</item>
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Button</item>
+        <item name="iconTint">@color/btn_text</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconPadding">6dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="rippleColor">@color/btn_ripple</item>
+        <item name="elevation">0dp</item>
+        <item name="android:stateListAnimator">@animator/press_scale</item>
+    </style>
+
+    <style name="Widget.VTChecker.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/bg</item>
+        <item name="boxStrokeColor">@color/field_stroke_state</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.VTChecker.Field</item>
+        <item name="hintTextColor">@color/focus</item>
+        <item name="android:textColorHint">@color/text_2</item>
+        <item name="endIconTint">@color/text_2</item>
+        <item name="hintTextAppearance">@style/TextAppearance.VTChecker.Footnote</item>
+    </style>
+
+    <!-- Type scale: apple.com's small-screen sizes, letter-spacing and line heights. -->
+    <style name="TextAppearance.VTChecker.Headline" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:letterSpacing">0.004</item>
+        <item name="lineHeight">36sp</item>
+        <item name="android:lineHeight" tools:targetApi="28">36sp</item>
+    </style>
+
+    <style name="TextAppearance.VTChecker.Subhead" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:letterSpacing">0.012</item>
+        <item name="lineHeight">27sp</item>
+        <item name="android:lineHeight" tools:targetApi="28">27sp</item>
+    </style>
+
+    <style name="TextAppearance.VTChecker.CardTitle" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:letterSpacing">0.009</item>
+        <item name="lineHeight">28sp</item>
+        <item name="android:lineHeight" tools:targetApi="28">28sp</item>
+    </style>
+
+    <style name="TextAppearance.VTChecker.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:letterSpacing">-0.022</item>
+        <item name="lineHeight">25sp</item>
+        <item name="android:lineHeight" tools:targetApi="28">25sp</item>
+    </style>
+
+    <style name="TextAppearance.VTChecker.RowTitle" parent="TextAppearance.VTChecker.Body">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="lineHeight">21sp</item>
+        <item name="android:lineHeight" tools:targetApi="28">21sp</item>
+    </style>
+
+    <style name="TextAppearance.VTChecker.Footnote" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">-0.016</item>
+        <item name="lineHeight">20sp</item>
+        <item name="android:lineHeight" tools:targetApi="28">20sp</item>
+    </style>
+
+    <style name="TextAppearance.VTChecker.Legal" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="lineHeight">16sp</item>
+        <item name="android:lineHeight" tools:targetApi="28">16sp</item>
+    </style>
+
+    <style name="TextAppearance.VTChecker.Button" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:letterSpacing">-0.022</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- View styles built on the type scale. -->
+    <style name="VTChecker.Text" parent="">
+        <item name="android:textColor">@color/text</item>
+    </style>
+
+    <style name="VTChecker.Text.Headline">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Headline</item>
+        <item name="android:accessibilityHeading" tools:targetApi="28">true</item>
+    </style>
+
+    <style name="VTChecker.Text.Subhead">
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Subhead</item>
+        <item name="android:textColor">@color/text_2</item>
+    </style>
+
+    <style name="VTChecker.Text.CardTitle">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.CardTitle</item>
+        <item name="android:accessibilityHeading" tools:targetApi="28">true</item>
+    </style>
+
+    <style name="VTChecker.Text.Body">
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Body</item>
+    </style>
+
+    <style name="VTChecker.Text.RowTitle">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.RowTitle</item>
+    </style>
+
+    <style name="VTChecker.Text.Badge">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="fontFamily">@font/inter_semibold</item>
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Footnote</item>
+    </style>
+
+    <style name="VTChecker.Text.Footnote">
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Footnote</item>
+        <item name="android:textColor">@color/text_2</item>
+    </style>
+
+    <style name="VTChecker.Text.Legal">
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Legal</item>
+        <item name="android:textColor">@color/text_2</item>
+    </style>
+
+    <!-- A text link with a full 48dp touch target. -->
+    <style name="VTChecker.Text.Link">
+        <item name="android:textAppearance">@style/TextAppearance.VTChecker.Body</item>
+        <item name="android:textColor">@color/link</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="VTChecker.Card" parent="">
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingStart">@dimen/card_padding_h</item>
+        <item name="android:paddingEnd">@dimen/card_padding_h</item>
+        <item name="android:paddingTop">@dimen/card_padding_v</item>
+        <item name="android:paddingBottom">@dimen/card_padding_v</item>
+    </style>
 </resources>

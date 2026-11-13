@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Apple's phone gutter is 6.25% of the width, about 24dp on common phones. -->
+    <dimen name="gutter">24dp</dimen>
+    <dimen name="content_max_width">640dp</dimen>
+    <dimen name="card_radius">18dp</dimen>
+    <dimen name="card_padding_h">24dp</dimen>
+    <dimen name="card_padding_v">28dp</dimen>
+    <dimen name="card_gap">20dp</dimen>
+    <dimen name="row_padding_v">20dp</dimen>
+    <!-- 48dp rather than the web system's 44px: Android's minimum touch target. -->
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="field_radius">12dp</dimen>
+    <dimen name="badge_size">32dp</dimen>
+    <dimen name="hairline">1dp</dimen>
+    <dimen name="settle_distance">32dp</dimen>
+</resources>

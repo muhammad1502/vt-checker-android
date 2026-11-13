@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The launcher icon as a rounded square, for the top of the home screen. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="72"
+    android:viewportHeight="72">
+    <path
+        android:pathData="M16,0h40a16,16 0,0 1,16 16v40a16,16 0,0 1,-16 16h-40a16,16 0,0 1,-16 -16v-40a16,16 0,0 1,16 -16z"
+        android:fillColor="@color/ic_launcher_background" />
+    <group
+        android:translateX="-18"
+        android:translateY="-18">
+        <path
+            android:pathData="M33.5,50.5a17,17 0,1 0,34 0a17,17 0,1 0,-34 0"
+            android:strokeWidth="6"
+            android:strokeColor="#FFFFFFFF" />
+        <path
+            android:pathData="M62.5,62.5L73,73"
+            android:strokeWidth="7"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeLineCap="round" />
+        <path
+            android:pathData="M43,51l5,5l10,-10.5"
+            android:strokeWidth="5"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>

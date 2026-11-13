@@ -1,11 +1,73 @@
 <resources>
     <string name="app_name">VT Checker</string>
 
-    <!-- This is the text that will appear in the context menu -->
+    <!-- The text-selection menu item and the Share sheet target. -->
     <string name="check_on_virustotal">Check on VirusTotal</string>
 
-    <!-- Text for your main launcher activity -->
-    <string name="main_activity_info">
-        "App installed.\n\nTo use:\n1. Select an IP or URL in any app.\n2. Tap the '…' (overflow) menu.\n3. Choose 'Check on VirusTotal'."
-    </string>
+    <string name="type_url">Link</string>
+    <string name="type_domain">Domain</string>
+    <string name="type_ip">IP address</string>
+    <string name="type_md5">MD5 file hash</string>
+    <string name="type_sha1">SHA-1 file hash</string>
+    <string name="type_sha256">SHA-256 file hash</string>
+
+    <string name="hero_title">VT Checker</string>
+    <string name="hero_subtitle">Check links, domains, IP addresses and file hashes on VirusTotal from any app.</string>
+
+    <string name="check_title">Check now</string>
+    <string name="check_hint">Link, domain, IP or hash</string>
+    <string name="check_helper">Paste or type it. Defanged text like hxxp://example[.]com works too.</string>
+    <string name="check_found_one">%1$s: %2$s</string>
+    <plurals name="check_found_many">
+        <item quantity="one">Found %d item.</item>
+        <item quantity="other">Found %d items. You\'ll choose one.</item>
+    </plurals>
+    <string name="check_found_none">No link, domain, IP address or file hash found yet.</string>
+    <string name="check_empty_error">Paste or type something to check first.</string>
+    <string name="check_none_error">No link, domain, IP address or file hash found. Check the text and try again.</string>
+    <string name="paste">Paste</string>
+    <string name="clear_text">Clear text</string>
+
+    <string name="howto_title">Use it in any app</string>
+    <string name="step_1_title">Select the text</string>
+    <string name="step_1_body">Long-press a link, domain, IP address or file hash. A whole sentence works too.</string>
+    <string name="step_2_title">Open the menu</string>
+    <string name="step_2_body">In the menu over the text, tap ⋮ (More) if Check on VirusTotal isn\'t showing yet.</string>
+    <string name="step_3_title">Tap Check on VirusTotal</string>
+    <string name="step_3_body">The report opens on virustotal.com. Close it to get back to where you were.</string>
+    <string name="howto_share">You can also share a link to Check on VirusTotal from any app\'s Share menu.</string>
+
+    <string name="types_title">What you can check</string>
+    <string name="types_links">Links</string>
+    <string name="types_links_meta">https://example.com/login, or example.com/login</string>
+    <string name="types_domains">Domains</string>
+    <string name="types_domains_meta">Including the domain in an email address</string>
+    <string name="types_ips">IP addresses</string>
+    <string name="types_ips_meta">IPv4 and IPv6</string>
+    <string name="types_hashes">File hashes</string>
+    <string name="types_hashes_meta">MD5, SHA-1 and SHA-256</string>
+    <string name="types_defanged">Defanged text</string>
+    <string name="types_defanged_meta">Such as hxxp://example[.]com or 8.8.8[.]8</string>
+
+    <string name="privacy_title">Privacy</string>
+    <string name="privacy_body_1">VT Checker has no account, no ads and no tracking, and it can\'t connect to the internet itself. Your browser opens VirusTotal with only the link, domain, IP address or hash, never the rest of the text you selected.</string>
+    <string name="privacy_body_2">VirusTotal scans what you check and shares it with the security community, so don\'t check private links, like password reset or shared document links.</string>
+    <string name="privacy_link">Read VirusTotal\'s privacy notice</string>
+
+    <string name="footer_made_by">VT Checker %1$s by Ninpo Inc.</string>
+    <string name="footer_disclaimer">Not affiliated with or endorsed by VirusTotal.</string>
+    <string name="footer_licenses">Open-source licenses</string>
+
+    <string name="picker_title">Choose what to check</string>
+    <string name="nothing_title">Nothing to check</string>
+    <string name="nothing_body">VT Checker looks for links, domains, IP addresses and file hashes, and there isn\'t one in the selected text.</string>
+    <string name="nothing_empty_body">No text was selected.</string>
+    <string name="notice_title">Before your first check</string>
+    <string name="notice_body">VirusTotal scans what you check and shares it with the security community. Don\'t check private links, like password reset or shared document links.</string>
+    <string name="notice_continue">Continue</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="no_browser">No web browser found. Install one to see VirusTotal reports.</string>
+    <string name="opens_in_browser">%1$s, opens in your browser</string>
 </resources>

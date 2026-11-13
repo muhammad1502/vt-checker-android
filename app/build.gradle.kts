@@ -3,33 +3,68 @@ plugins {
 }
 
 android {
-    namespace = "com.example.vtchecker"
+    namespace = "com.ninpo.vtchecker"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.vtchecker"
+        // Google Play rejects com.example IDs, so the app now lives under Ninpo's
+        // namespace. Devices with the old com.example build will see two apps until
+        // the old one is uninstalled.
+        applicationId = "com.ninpo.vtchecker"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionCode = 2
+        versionName = "2.0"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    androidResources {
+        // The app is written in English only; this keeps library strings (dialog
+        // buttons, accessibility labels) in English too and trims the APK.
+        localeFilters += listOf("en")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all {
+                // Robolectric's Android 16 runtime reaches into these JDK internals on Java 17+.
+                it.jvmArgs(
+                    "--add-exports=java.base/jdk.internal.access=ALL-UNNAMED",
+                    "--add-opens=java.base/jdk.internal.access=ALL-UNNAMED",
+                    "--add-opens=java.base/java.io=ALL-UNNAMED"
+                )
+                // Screenshot tests only run when asked for: ./gradlew testDebugUnitTest -Pscreenshots
+                it.systemProperty("vt.screenshots", project.hasProperty("screenshots").toString())
+                it.systemProperty("vt.screenshotDir", layout.buildDirectory.dir("screenshots").get().asFile.path)
+            }
+        }
+    }
+
+    lint {
+        abortOnError = true
+        warningsAsErrors = false
     }
 }
 
@@ -38,7 +73,10 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.browser)
+
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.test.ext.junit)
 }

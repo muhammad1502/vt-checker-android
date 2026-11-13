@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Press-in, like the web system's button :active scale(.98). Animators follow the
+  system animation scale, so "Remove animations" turns this off.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <set>
+            <objectAnimator
+                android:duration="100"
+                android:interpolator="@interpolator/apple_ease"
+                android:propertyName="scaleX"
+                android:valueTo="0.98"
+                android:valueType="floatType" />
+            <objectAnimator
+                android:duration="100"
+                android:interpolator="@interpolator/apple_ease"
+                android:propertyName="scaleY"
+                android:valueTo="0.98"
+                android:valueType="floatType" />
+        </set>
+    </item>
+    <item>
+        <set>
+            <objectAnimator
+                android:duration="250"
+                android:interpolator="@interpolator/apple_ease"
+                android:propertyName="scaleX"
+                android:valueTo="1"
+                android:valueType="floatType" />
+            <objectAnimator
+                android:duration="250"
+                android:interpolator="@interpolator/apple_ease"
+                android:propertyName="scaleY"
+                android:valueTo="1"
+                android:valueType="floatType" />
+        </set>
+    </item>
+</selector>

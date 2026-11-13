@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A name and meta line in a list card, read by TalkBack as a single item. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/row_padding_v"
+    android:paddingBottom="@dimen/row_padding_v"
+    android:screenReaderFocusable="true"
+    tools:targetApi="28">
+
+    <TextView
+        android:id="@+id/row_title"
+        style="@style/VTChecker.Text.RowTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="IP addresses" />
+
+    <TextView
+        android:id="@+id/row_meta"
+        style="@style/VTChecker.Text.Footnote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        tools:text="IPv4 and IPv6" />
+</LinearLayout>

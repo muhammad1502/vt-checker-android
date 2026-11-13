@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Light theme tokens, matching the apple-web-design system. values-night/colors.xml
+  holds the dark values under the same names, so layouts never hardcode a colour.
+  Contrast was checked for every text and control pair used (WCAG 2.2 AA).
+-->
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="bg">#FFFFFF</color>
+    <color name="bg_alt">#F5F5F7</color>
+    <color name="panel_bg">#FFFFFF</color>
+    <color name="text">#1D1D1F</color>
+    <color name="text_2">#6E6E73</color>
+    <color name="link">#0066CC</color>
+    <color name="divider">#D2D2D7</color>
+    <color name="fill_quiet">#E8E8ED</color>
+    <!-- Field outlines need 3:1 against the card, which the divider grey doesn't reach. -->
+    <color name="field_stroke">#86868B</color>
+    <color name="focus">#0071E3</color>
+    <color name="on_focus">#FFFFFF</color>
+    <color name="error">#D70015</color>
+    <color name="highlight">#330071E3</color>
+    <color name="status_bar_scrim">#F2FFFFFF</color>
+
+    <!-- Light: Apple blue with white text. Dark inverts to a light pill (see values-night). -->
+    <color name="btn_bg">#0071E3</color>
+    <color name="btn_bg_active">#005BB8</color>
+    <color name="btn_text">#FFFFFF</color>
+    <color name="btn_ripple">#1FFFFFFF</color>
 </resources>

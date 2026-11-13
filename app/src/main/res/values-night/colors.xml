@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#000000</color>
+    <color name="bg_alt">#161617</color>
+    <color name="panel_bg">#1D1D1F</color>
+    <color name="text">#F5F5F7</color>
+    <color name="text_2">#A1A1A6</color>
+    <color name="link">#2997FF</color>
+    <color name="divider">#424245</color>
+    <color name="fill_quiet">#333336</color>
+    <color name="field_stroke">#86868B</color>
+    <color name="focus">#2997FF</color>
+    <color name="on_focus">#000000</color>
+    <color name="error">#FF6961</color>
+    <color name="highlight">#552997FF</color>
+    <color name="status_bar_scrim">#F2000000</color>
+
+    <!-- White text on the brighter dark-mode blue fails AA, so the button becomes a light pill. -->
+    <color name="btn_bg">#F5F5F7</color>
+    <color name="btn_bg_active">#E8E8ED</color>
+    <color name="btn_text">#1D1D1F</color>
+    <color name="btn_ripple">#141D1D1F</color>
+</resources>
