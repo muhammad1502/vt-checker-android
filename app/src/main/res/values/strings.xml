@@ -50,6 +50,8 @@
     <string name="types_defanged_meta">Such as hxxp://example[.]com or 8.8.8[.]8</string>
 
     <string name="privacy_title">Privacy</string>
+    <string name="privacy_summary">No account, no ads and no tracking. Only the link, domain, IP address or hash you check goes to VirusTotal.</string>
+    <string name="more_details">More details</string>
     <string name="privacy_body_1">Ninpo Scout has no account, no ads and no tracking, and it can\'t connect to the internet itself. Your browser opens VirusTotal with only the link, domain, IP address or hash, never the rest of the text you selected.</string>
     <string name="privacy_body_2">VirusTotal scans what you check and shares it with the security community, so don\'t check private links, like password reset or shared document links.</string>
     <string name="privacy_link">Read VirusTotal\'s privacy notice</string>

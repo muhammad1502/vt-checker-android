@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "More details" bottom sheet: the detail the home screen leaves out. -->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/card_padding_h"
+        android:paddingEnd="@dimen/card_padding_h"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/Scout.Text.CardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/types_title" />
+
+        <LinearLayout
+            android:id="@+id/types"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            style="@style/Scout.Text.CardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/privacy_title" />
+
+        <TextView
+            style="@style/Scout.Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/privacy_body_1" />
+
+        <TextView
+            style="@style/Scout.Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/privacy_body_2" />
+
+        <TextView
+            android:id="@+id/privacy_link"
+            style="@style/Scout.Text.Link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawablePadding="4dp"
+            android:text="@string/privacy_link"
+            app:drawableEndCompat="@drawable/ic_open_external"
+            app:drawableTint="@color/link" />
+
+        <TextView
+            android:id="@+id/licenses_link"
+            style="@style/Scout.Text.Link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/footer_licenses" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

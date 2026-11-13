@@ -33,11 +33,28 @@ final class CheckFlow {
 
     private CheckFlow() {}
 
-    /** The dialog currently on screen, so an activity can close it quietly in onDestroy. */
+    /**
+     * Per-activity state: the dialog on screen, so it can be closed quietly in
+     * onDestroy, and the browser warm-up that runs while the user decides.
+     */
     static final class Session {
         @Nullable private AlertDialog dialog;
+        private final BrowserWarmup warmup = new BrowserWarmup();
+
+        void warmUp(@NonNull Context context) {
+            warmup.start(context);
+        }
+
+        void coolDown() {
+            warmup.stop();
+        }
+
+        boolean isWarmingUp() {
+            return warmup.isStarted();
+        }
 
         void end() {
+            warmup.stop();
             if (dialog == null) return;
             dialog.setOnDismissListener(null);
             if (dialog.isShowing()) dialog.dismiss();
@@ -63,6 +80,7 @@ final class CheckFlow {
     private static void choose(AppCompatActivity activity, List<Indicator> found,
                                Session session, @Nullable Runnable onFinished) {
         boolean[] picked = {false};
+        session.warmUp(activity);
         ArrayAdapter<Indicator> adapter = new ArrayAdapter<Indicator>(activity, R.layout.item_choice, found) {
             @NonNull
             @Override
@@ -98,6 +116,7 @@ final class CheckFlow {
             finished(onFinished);
             return;
         }
+        session.warmUp(activity);
         session.dialog = new MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.notice_title)
                 .setMessage(R.string.notice_body)

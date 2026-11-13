@@ -66,6 +66,12 @@ public class ScreenshotTest {
         captureHome("home-typed-several-dark", "203.0.113.9 and evil.net");
     }
 
+    // Inter is subset to Latin; other scripts should fall back to system fonts.
+    @Test
+    public void homeNonLatinText() throws IOException {
+        captureHome("home-non-latin", "пример.рф ελληνικά 例え.jp");
+    }
+
     @Test
     public void homeLargeText() throws IOException {
         RuntimeEnvironment.setFontScale(2f);
@@ -82,6 +88,17 @@ public class ScreenshotTest {
     @Config(qualifiers = "w840dp-h1200dp-xhdpi")
     public void homeTablet() throws IOException {
         captureHome("home-tablet", null);
+    }
+
+    @Test
+    public void detailsSheetLight() throws IOException {
+        captureSheet("sheet-details-light");
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    public void detailsSheetDark() throws IOException {
+        captureSheet("sheet-details-dark");
     }
 
     @Test
@@ -122,7 +139,16 @@ public class ScreenshotTest {
             child.setScaleX(1);
             child.setScaleY(1);
         }
-        save((View) content.getParent(), name + "-page", bg);
+        save(content, name + "-page", bg);
+    }
+
+    private static void captureSheet(String name) throws IOException {
+        MainActivity activity = Robolectric.buildActivity(MainActivity.class).setup().get();
+        activity.findViewById(R.id.more_details).performClick();
+        // Let the fragment attach and the sheet finish sliding up.
+        ShadowLooper.idleMainLooper(2, java.util.concurrent.TimeUnit.SECONDS);
+        Dialog dialog = ShadowDialog.getLatestDialog();
+        save(dialog.getWindow().getDecorView(), name, 0xFF8E8E93);
     }
 
     private static void captureCheck(String name, String text, boolean noticeSeen) throws IOException {

@@ -10,12 +10,10 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.HapticFeedbackConstants;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -27,15 +25,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.Lifecycle;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,13 +42,6 @@ public class MainActivity extends AppCompatActivity {
             {R.string.step_3_title, R.string.step_3_body},
     };
 
-    private static final int[][] TYPES = {
-            {R.string.types_links, R.string.types_links_meta},
-            {R.string.types_domains, R.string.types_domains_meta},
-            {R.string.types_ips, R.string.types_ips_meta},
-            {R.string.types_hashes, R.string.types_hashes_meta},
-            {R.string.types_defanged, R.string.types_defanged_meta},
-    };
 
     private final CheckFlow.Session session = new CheckFlow.Session();
     private final List<View> cards = new ArrayList<>();
@@ -65,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText input;
     private TextView status;
     private boolean showingError;
+    private boolean hasItem;
     private float settleDistance;
 
     @Override
@@ -81,11 +69,9 @@ public class MainActivity extends AppCompatActivity {
         settleDistance = getResources().getDimension(R.dimen.settle_distance);
 
         applyInsets();
-        addRows(findViewById(R.id.steps), R.layout.item_step, STEPS, true);
-        addRows(findViewById(R.id.types), R.layout.item_row, TYPES, false);
+        Rows.addSteps(findViewById(R.id.steps), STEPS);
         cards.add(findViewById(R.id.check_card));
         cards.add(findViewById(R.id.howto_card));
-        cards.add(findViewById(R.id.types_card));
         cards.add(findViewById(R.id.privacy_card));
 
         // Wraps long links over up to four lines while keeping the keyboard's Go key.
@@ -116,10 +102,11 @@ public class MainActivity extends AppCompatActivity {
             check();
         });
 
-        TextView privacyLink = findViewById(R.id.privacy_link);
-        privacyLink.setContentDescription(getString(R.string.opens_in_browser, getString(R.string.privacy_link)));
-        privacyLink.setOnClickListener(v -> CheckFlow.open(this, VirusTotal.PRIVACY_NOTICE));
-        findViewById(R.id.licenses_link).setOnClickListener(v -> showLicenses());
+        findViewById(R.id.more_details).setOnClickListener(v -> {
+            if (getSupportFragmentManager().findFragmentByTag(DetailsSheet.TAG) == null) {
+                new DetailsSheet().show(getSupportFragmentManager(), DetailsSheet.TAG);
+            }
+        });
 
         TextView version = findViewById(R.id.footer_version);
         version.setText(getString(R.string.footer_made_by, BuildConfig.VERSION_NAME));
@@ -133,6 +120,19 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         updateStatus();
         updateEndIcon();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (hasItem) session.warmUp(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // Don't hold the browser awake while the app is in the background.
+        session.coolDown();
+        super.onStop();
     }
 
     @Override
@@ -163,8 +163,15 @@ public class MainActivity extends AppCompatActivity {
      * every keystroke, so TalkBack only announces errors, not these updates.
      */
     private void updateStatus() {
-        if (showingError) return;
         CharSequence text = input.getText();
+        List<Indicator> found = IndicatorParser.parse(text);
+        hasItem = !found.isEmpty();
+        // Something checkable is in the field, so a tap on Check is likely: start the
+        // browser now. Nothing is sent to VirusTotal until the user taps.
+        if (hasItem && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            session.warmUp(this);
+        }
+        if (showingError) return;
         status.setTextColor(ContextCompat.getColor(this, R.color.text_2));
         ViewCompat.setAccessibilityLiveRegion(status, ViewCompat.ACCESSIBILITY_LIVE_REGION_NONE);
         status.setMaxLines(Integer.MAX_VALUE);
@@ -172,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
             status.setText(R.string.check_helper);
             return;
         }
-        List<Indicator> found = IndicatorParser.parse(text);
         if (found.isEmpty()) {
             status.setText(R.string.check_found_none);
         } else if (found.size() == 1) {
@@ -223,29 +229,6 @@ public class MainActivity extends AppCompatActivity {
         input.clearFocus();
     }
 
-    private void addRows(LinearLayout parent, int layout, int[][] rows, boolean numbered) {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        for (int i = 0; i < rows.length; i++) {
-            if (i > 0) {
-                View rule = new View(this);
-                rule.setBackgroundResource(R.drawable.divider);
-                parent.addView(rule, new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        getResources().getDimensionPixelSize(R.dimen.hairline)));
-            }
-            View row = inflater.inflate(layout, parent, false);
-            if (numbered) {
-                ((TextView) row.findViewById(R.id.step_number)).setText(String.valueOf(i + 1));
-                ((TextView) row.findViewById(R.id.step_title)).setText(rows[i][0]);
-                ((TextView) row.findViewById(R.id.step_body)).setText(rows[i][1]);
-            } else {
-                ((TextView) row.findViewById(R.id.row_title)).setText(rows[i][0]);
-                ((TextView) row.findViewById(R.id.row_meta)).setText(rows[i][1]);
-            }
-            if (i == rows.length - 1) row.setPadding(row.getPaddingLeft(), row.getPaddingTop(), row.getPaddingRight(), 0);
-            parent.addView(row);
-        }
-    }
 
     private void applyInsets() {
         View scrim = findViewById(R.id.status_bar_scrim);
@@ -281,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
         for (View card : cards) {
             float s = 1f;
             if (enabled) {
-                float top = content.getTop() + card.getTop() - scroll.getScrollY() + scroll.getPaddingTop();
+                float top = content.getTop() + card.getTop() - scroll.getScrollY();
                 s = Math.max(0f, Math.min(1f, (height - top) / zone));
             }
             card.setTranslationY((1f - s) * settleDistance);
@@ -290,20 +273,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showLicenses() {
-        String text;
-        try (InputStream in = getResources().openRawResource(R.raw.licenses)) {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[8192];
-            for (int n; (n = in.read(buffer)) > 0; ) out.write(buffer, 0, n);
-            text = new String(out.toByteArray(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            return;
-        }
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.footer_licenses)
-                .setMessage(text)
-                .setPositiveButton(R.string.close, null)
-                .show();
-    }
 }

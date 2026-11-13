@@ -23,6 +23,7 @@
         <item name="android:fontFamily">@font/inter</item>
         <item name="fontFamily">@font/inter</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Scout.Dialog</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Scout.BottomSheet</item>
         <item name="textInputStyle">@style/Widget.Scout.TextInput</item>
         <item name="materialButtonStyle">@style/Widget.Scout.Button</item>
     </style>
@@ -52,6 +53,25 @@
 
     <style name="Scout.AlertDialog" parent="MaterialAlertDialog.Material3">
         <item name="backgroundTint">@color/panel_bg</item>
+    </style>
+
+    <!-- The "More details" sheet: same panel colour as dialogs, card radius on top. -->
+    <style name="ThemeOverlay.Scout.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Scout.BottomSheet</item>
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+    <style name="Scout.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/panel_bg</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Scout.Sheet</item>
+    </style>
+
+    <style name="ShapeAppearance.Scout.Sheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/card_radius</item>
+        <item name="cornerSizeTopRight">@dimen/card_radius</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
     <style name="ShapeAppearance.Scout.Card" parent="">

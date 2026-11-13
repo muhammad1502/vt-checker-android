@@ -14,13 +14,18 @@ An Android app by Ninpo Inc. that adds **Check on VirusTotal** to the text-selec
 - **Finds what to check in messy text.** A sentence, a log line or an email header is fine: the app picks out links, domains, IPv4 and IPv6 addresses and MD5, SHA-1 and SHA-256 hashes. When there are several it asks which one; when there are none it says so instead of opening an empty search.
 - **Reads defanged text.** `hxxps://evil[.]example[.]com`, `8.8.8[.]8` and `user[at]evil[.]com` are cleaned up before checking.
 - **Check field on the home screen.** Paste or type, and the line under the field shows exactly what will be checked.
+- **Opens reports sooner when it can.** While you're choosing from the list, reading the first-check notice or typing in the home screen field, the app starts your browser in the background (Custom Tabs warm-up, which Chrome says can save up to 700 ms). It never pre-loads the VirusTotal page, because that would send the item before you tap.
+- **Short home screen.** The check field, three steps and a privacy summary; the full details are one tap away in a bottom sheet.
 - **Light and dark mode**, large-text support, TalkBack labels and 48dp touch targets.
 
-<img src="docs/screenshots/choose-what-to-check.png" width="360" alt="Dialog listing a link, an IP address and a file hash to choose from">
+<p>
+  <img src="docs/screenshots/choose-what-to-check.png" width="300" alt="Dialog listing a link, an IP address and a file hash to choose from">
+  <img src="docs/screenshots/more-details.png" width="240" alt="The More details sheet with supported formats and privacy notes">
+</p>
 
 ## Privacy
 
-The app has no account, no ads, no analytics and no permissions, including no internet permission. It opens VirusTotal's website in the user's browser (as a Custom Tab), sending only the item it found, never the rest of the selected text. Before the first check it explains that VirusTotal scans what it is asked about and shares it with the security community, as VirusTotal's [documentation](https://docs.virustotal.com/docs/searching) states.
+The app has no account, no ads, no analytics and no permissions, including no internet permission. It opens VirusTotal's website in the user's browser (as a Custom Tab), sending only the item it found, never the rest of the selected text. To do that it looks up which browser is installed; that stays on the phone. Before the first check it explains that VirusTotal scans what it is asked about and shares it with the security community, as VirusTotal's [documentation](https://docs.virustotal.com/docs/searching) states.
 
 ## How the VirusTotal link works
 
@@ -41,7 +46,9 @@ VirusTotal redirects that to the right report (`/gui/url/…`, `/gui/domain/…`
 | `app/src/main/java/com/ninpo/scout/VirusTotal.java` | Builds the VirusTotal address |
 | `app/src/main/java/com/ninpo/scout/CheckActivity.java` | The text-selection and Share handler (no screen of its own) |
 | `app/src/main/java/com/ninpo/scout/CheckFlow.java` | Choosing an item, the first-check notice, opening the Custom Tab |
+| `app/src/main/java/com/ninpo/scout/BrowserWarmup.java` | Starts the browser early while the user decides |
 | `app/src/main/java/com/ninpo/scout/MainActivity.java` | Home screen |
+| `app/src/main/java/com/ninpo/scout/DetailsSheet.java` | The "More details" sheet: formats, privacy, licenses |
 | `app/src/main/res/values/colors.xml`, `values-night/colors.xml` | Light and dark color tokens |
 
 The design follows the apple-web-design system: its color tokens, type scale and spacing, the Inter typeface, one pill button style, and WCAG 2.2 AA contrast in both themes.
@@ -53,21 +60,25 @@ Requires Android Studio (or JDK 17+ and the Android SDK with platform 36).
 ```
 ./gradlew assembleDebug          # debug APK
 ./gradlew assembleRelease        # release APK, shrunk with R8 (sign it with Ninpo's key)
+./gradlew bundleRelease          # App Bundle: the format Google Play requires for new apps
 ./gradlew testDebugUnitTest      # unit and Robolectric tests
 ./gradlew lintDebug              # Android lint
 ./gradlew testDebugUnitTest -Pscreenshots --tests '*ScreenshotTest'
                                  # renders screens to app/build/screenshots/
 ```
 
+Every push to GitHub runs the tests and lint and builds the app (`.github/workflows/build.yml`). Each run attaches a test APK: open the Actions tab, pick the run and download it under Artifacts.
+
 The application ID is `com.ninpo.scout`. It can't change once the app is on Google Play. Version 1.0 was called VT Checker and used `com.example.vtchecker`, so phones with that build will show two apps until the old one is removed.
 
 ## Maintenance
 
 - **New top-level domains.** Refresh `Tlds.java` from <https://data.iana.org/TLD/tlds-alpha-by-domain.txt> when ICANN delegates new ones.
+- **Fonts.** Inter is subset to Latin, Vietnamese and common symbols, which cut each font file from 325 KB to 133 KB. Other scripts use Android's system fonts. To change the subset, rerun `pyftsubset` (fontTools) on the original Inter files.
 - **Android Gradle Plugin 9.** The project stays on AGP 8.13 so it opens in current Android Studio releases without the AGP 9 migration. Moving to AGP 9 and compile SDK 37 is a separate step.
 
 ## Licenses
 
-Inter (SIL Open Font License 1.1), Lucide and Feather icons (ISC and MIT), AndroidX and Material Components (Apache 2.0). The full texts ship in the app under Open-source licenses.
+Inter (SIL Open Font License 1.1, subset), Lucide and Feather icons (ISC and MIT), AndroidX and Material Components (Apache 2.0). The full texts ship in the app under Open-source licenses.
 
 Ninpo Scout is not affiliated with or endorsed by VirusTotal.

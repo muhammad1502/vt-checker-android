@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Inter 4.001 (SIL Open Font License 1.1), the closest open match to SF Pro. -->
+<!--
+  Inter 4.001 (SIL Open Font License 1.1), the closest open match to SF Pro.
+  Subset to Latin, Vietnamese and common punctuation and symbols (about 60% smaller);
+  other scripts fall back to Android's system fonts. Inter's license names no
+  reserved font name, so the subset keeps the name.
+-->
 <font-family xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <font
