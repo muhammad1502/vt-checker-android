@@ -26,11 +26,30 @@
             android:paddingEnd="@dimen/gutter"
             android:paddingBottom="32dp">
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/ic_brand_mark" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_brand_mark" />
+
+                <!-- Appearance: Match device, Light or Dark. Where the web system puts its theme toggle. -->
+                <ImageButton
+                    android:id="@+id/appearance"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="-12dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_theme_auto"
+                    app:tint="@color/text_2"
+                    tools:ignore="ContentDescription" />
+            </FrameLayout>
 
             <TextView
                 style="@style/Scout.Text.Headline"

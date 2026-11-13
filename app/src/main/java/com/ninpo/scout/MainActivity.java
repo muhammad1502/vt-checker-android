@@ -7,16 +7,19 @@ import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -24,7 +27,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -74,8 +80,10 @@ public class MainActivity extends AppCompatActivity implements CheckFlow.Host {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
+        // After super.onCreate: AppCompat applies a chosen Appearance there, and enabling
+        // edge-to-edge first builds the window early, leaving a light page under a dark screen.
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
         scroll = findViewById(R.id.scroll);
@@ -124,6 +132,12 @@ public class MainActivity extends AppCompatActivity implements CheckFlow.Host {
                 new DetailsSheet().show(getSupportFragmentManager(), DetailsSheet.TAG);
             }
         });
+
+        ImageButton appearance = findViewById(R.id.appearance);
+        TooltipCompat.setTooltipText(appearance, getString(R.string.appearance));
+        appearance.setOnClickListener(this::showAppearanceMenu);
+        updateAppearanceButton();
+        ThemeFade.play(findViewById(R.id.root));
 
         TextView version = findViewById(R.id.footer_version);
         version.setText(getString(R.string.footer_made_by, BuildConfig.VERSION_NAME));
@@ -197,6 +211,37 @@ public class MainActivity extends AppCompatActivity implements CheckFlow.Host {
         }
         hideKeyboard();
         CheckFlow.start(this, found, session, this);
+    }
+
+    private void showAppearanceMenu(View anchor) {
+        PopupMenu menu = new PopupMenu(this, anchor, Gravity.END);
+        menu.inflate(R.menu.appearance);
+        menu.getMenu().findItem(Appearance.menuItem(Appearance.saved(this))).setChecked(true);
+        menu.setOnMenuItemClickListener(item -> {
+            chooseAppearance(Appearance.modeFor(item.getItemId()));
+            return true;
+        });
+        menu.show();
+    }
+
+    @VisibleForTesting
+    void chooseAppearance(int mode) {
+        if (mode == Appearance.saved(this)) return;
+        boolean darkNow = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES;
+        boolean recreates = Appearance.isDark(mode) != darkNow;
+        // The screen is rebuilt in the new colours; fade from a picture of the old one.
+        if (recreates) ThemeFade.capture(findViewById(R.id.root));
+        Appearance.choose(this, mode);
+        // Same colours (say, Dark to Match device on a dark phone): nothing is rebuilt.
+        if (!recreates) updateAppearanceButton();
+    }
+
+    private void updateAppearanceButton() {
+        int mode = Appearance.saved(this);
+        ImageButton button = findViewById(R.id.appearance);
+        button.setImageResource(Appearance.icon(mode));
+        button.setContentDescription(getString(R.string.appearance_description, getString(Appearance.label(mode))));
     }
 
     @Override

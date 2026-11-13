@@ -17,7 +17,7 @@ An Android app by Ninpo Inc. that adds **Check on VirusTotal** to the text-selec
 - **Check field on the home screen.** Paste or type, and the line under the field shows exactly what will be checked. Clipboard text that a password manager marks as private is never pasted.
 - **Opens reports sooner when it can.** While you're choosing from the list, reading the first-check notice or typing in the home screen field, the app starts your browser in the background (Custom Tabs warm-up, which Chrome says can save up to 700 ms). It never pre-loads the VirusTotal page, because that would send the item before you tap.
 - **Short home screen.** The check field, three steps and a privacy summary; the full details are one tap away in a bottom sheet.
-- **Light and dark mode**, large-text support, TalkBack labels and 48dp touch targets.
+- **Light and dark mode.** It follows the phone by default; the button at the top right switches between Match device, Light and Dark, and the choice is remembered. Also large-text support, TalkBack labels and 48dp touch targets.
 
 <p>
   <img src="docs/screenshots/choose-what-to-check.png" width="300" alt="Dialog listing a link, an IP address and a file hash to choose from">
@@ -50,6 +50,7 @@ VirusTotal redirects that to the right report (`/gui/url/…`, `/gui/domain/…`
 | `app/src/main/java/com/ninpo/scout/BrowserWarmup.java` | Starts the browser early while the user decides |
 | `app/src/main/java/com/ninpo/scout/MainActivity.java` | Home screen |
 | `app/src/main/java/com/ninpo/scout/DetailsSheet.java` | The "More details" sheet: formats, privacy, licenses |
+| `app/src/main/java/com/ninpo/scout/Appearance.java`, `ScoutApp.java` | The Match device / Light / Dark setting, saved and re-applied at launch |
 | `app/src/main/res/values/colors.xml`, `values-night/colors.xml` | Light and dark color tokens |
 
 The design follows the apple-web-design system: its color tokens, type scale and spacing, the Inter typeface, one pill button style, and WCAG 2.2 AA contrast in both themes.

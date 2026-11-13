@@ -26,6 +26,9 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Scout.BottomSheet</item>
         <item name="textInputStyle">@style/Widget.Scout.TextInput</item>
         <item name="materialButtonStyle">@style/Widget.Scout.Button</item>
+        <item name="popupMenuBackground">@drawable/bg_popup</item>
+        <item name="textAppearanceLargePopupMenu">@style/TextAppearance.Scout.Body</item>
+        <item name="textAppearanceSmallPopupMenu">@style/TextAppearance.Scout.Body</item>
     </style>
 
     <style name="Theme.Scout" parent="Base.Theme.Scout" />

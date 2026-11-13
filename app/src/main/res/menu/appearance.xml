@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/appearance_auto"
+            android:title="@string/appearance_auto" />
+        <item
+            android:id="@+id/appearance_light"
+            android:title="@string/appearance_light" />
+        <item
+            android:id="@+id/appearance_dark"
+            android:title="@string/appearance_dark" />
+    </group>
+</menu>

@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.annotation.GraphicsMode;
@@ -39,9 +40,26 @@ import java.io.IOException;
 @Config(qualifiers = "w411dp-h914dp-xxhdpi")
 public class ScreenshotTest {
 
+    private static final java.util.List<ActivityController<?>> OPEN = new java.util.ArrayList<>();
+
     @Before
     public void onlyWhenAsked() {
         assumeTrue(Boolean.getBoolean("scout.screenshots"));
+    }
+
+    /** Closes every screen a test opened, so a later theme change can't reach it. */
+    @org.junit.After
+    public void closeEverything() {
+        for (ActivityController<?> controller : OPEN) {
+            controller.pause().stop().destroy();
+        }
+        OPEN.clear();
+        ShadowLooper.idleMainLooper();
+    }
+
+    private static <T extends android.app.Activity> T open(ActivityController<T> controller) {
+        OPEN.add(controller);
+        return controller.setup().get();
     }
 
     @Test
@@ -90,6 +108,27 @@ public class ScreenshotTest {
         captureHome("home-tablet", null);
     }
 
+    // Light device, Appearance set to Dark: the app must render dark anyway.
+    @Test
+    public void homeChosenDarkOnALightDevice() throws IOException {
+        Appearance.choose(ApplicationProvider.getApplicationContext(), Appearance.DARK);
+        try {
+            captureHome("home-chosen-dark", null);
+        } finally {
+            Appearance.choose(ApplicationProvider.getApplicationContext(), Appearance.AUTO);
+        }
+    }
+
+    @Test
+    public void appearanceMenu() throws IOException {
+        MainActivity activity = open(Robolectric.buildActivity(MainActivity.class));
+        activity.findViewById(R.id.appearance).performClick();
+        ShadowLooper.idleMainLooper();
+        android.widget.PopupWindow popup = org.robolectric.Shadows
+                .shadowOf(RuntimeEnvironment.getApplication()).getLatestPopupWindow();
+        save(popup.getContentView(), "menu-appearance-light", 0xFFFFFFFF);
+    }
+
     @Test
     public void detailsSheetLight() throws IOException {
         captureSheet("sheet-details-light");
@@ -124,7 +163,7 @@ public class ScreenshotTest {
     }
 
     private static void captureHome(String name, String typed) throws IOException {
-        MainActivity activity = Robolectric.buildActivity(MainActivity.class).setup().get();
+        MainActivity activity = open(Robolectric.buildActivity(MainActivity.class));
         if (typed != null) ((EditText) activity.findViewById(R.id.input)).setText(typed);
         ShadowLooper.idleMainLooper();
         View root = activity.getWindow().getDecorView();
@@ -143,12 +182,14 @@ public class ScreenshotTest {
     }
 
     private static void captureSheet(String name) throws IOException {
-        MainActivity activity = Robolectric.buildActivity(MainActivity.class).setup().get();
+        MainActivity activity = open(Robolectric.buildActivity(MainActivity.class));
         activity.findViewById(R.id.more_details).performClick();
         // Let the fragment attach and the sheet finish sliding up.
         ShadowLooper.idleMainLooper(2, java.util.concurrent.TimeUnit.SECONDS);
         Dialog dialog = ShadowDialog.getLatestDialog();
         save(dialog.getWindow().getDecorView(), name, 0xFF8E8E93);
+        dialog.dismiss();
+        ShadowLooper.idleMainLooper();
     }
 
     private static void captureCheck(String name, String text, boolean noticeSeen) throws IOException {
@@ -159,13 +200,12 @@ public class ScreenshotTest {
                 .setClass(app, CheckActivity.class)
                 .setType("text/plain")
                 .putExtra(android.content.Intent.EXTRA_PROCESS_TEXT, text);
-        CheckActivity activity = Robolectric.buildActivity(CheckActivity.class, intent).setup().get();
+        CheckActivity activity = open(Robolectric.buildActivity(CheckActivity.class, intent));
         ShadowLooper.idleMainLooper();
         Dialog dialog = ShadowDialog.getLatestDialog();
         View decor = dialog.getWindow().getDecorView();
         // Show the dialog over a mid-grey "app" so its edges are visible.
         save(decor, name, 0xFF8E8E93);
-        activity.finish();
     }
 
     private static void save(View view, String name, int background) throws IOException {

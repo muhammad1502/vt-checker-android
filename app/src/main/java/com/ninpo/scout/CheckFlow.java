@@ -157,6 +157,7 @@ final class CheckFlow {
                 .setShowTitle(true)
                 .setUrlBarHidingEnabled(true)
                 .setShareState(CustomTabsIntent.SHARE_STATE_ON)
+                .setColorScheme(Appearance.customTabsColorScheme(context))
                 .setInitialActivityHeightPx(height, CustomTabsIntent.ACTIVITY_HEIGHT_ADJUSTABLE)
                 .setToolbarCornerRadiusDp(REPORT_CORNER_RADIUS_DP)
                 .build();
@@ -170,6 +171,7 @@ final class CheckFlow {
      */
     static void open(@NonNull Context context, @NonNull String url) {
         CustomTabsIntent tab = new CustomTabsIntent.Builder()
+                .setColorScheme(Appearance.customTabsColorScheme(context))
                 .setShowTitle(true)
                 .setUrlBarHidingEnabled(true)
                 .setShareState(CustomTabsIntent.SHARE_STATE_ON)

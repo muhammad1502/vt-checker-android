@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android 12 and higher. The only stored setting is whether the privacy notice was seen. -->
+<!-- Android 12 and higher. The only stored settings are whether the privacy notice was seen and the Appearance choice. -->
 <data-extraction-rules>
     <cloud-backup />
     <device-transfer />

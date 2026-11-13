@@ -12,6 +12,12 @@
     <string name="type_sha256">SHA-256 file hash</string>
 
     <string name="hero_title">Ninpo Scout</string>
+
+    <string name="appearance">Appearance</string>
+    <string name="appearance_auto">Match device</string>
+    <string name="appearance_light">Light</string>
+    <string name="appearance_dark">Dark</string>
+    <string name="appearance_description">Appearance: %1$s</string>
     <string name="hero_subtitle">Check links, domains, IP addresses and file hashes on VirusTotal from any app.</string>
 
     <string name="check_title">Check now</string>
