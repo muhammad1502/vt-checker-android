@@ -36,7 +36,7 @@
                     android:importantForAccessibility="no"
                     android:src="@drawable/ic_brand_mark" />
 
-                <!-- Appearance: Match device, Light or Dark. Where the web system puts its theme toggle. -->
+                <!-- Appearance: Match device, Light or Dark. -->
                 <ImageButton
                     android:id="@+id/appearance"
                     android:layout_width="48dp"

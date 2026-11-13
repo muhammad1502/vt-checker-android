@@ -19,8 +19,30 @@ android {
         versionName = "2.0"
     }
 
+    // Release signing for the GitHub release workflow, which writes Ninpo's keystore
+    // from repository secrets and passes its path here. Without it (local builds,
+    // Android Studio's "Generate Signed Bundle"), the release build is left unsigned.
+    val releaseKeystore = System.getenv("SIGNING_STORE_FILE")
+    if (releaseKeystore != null) {
+        signingConfigs {
+            create("release") {
+                storeFile = file(releaseKeystore)
+                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = when {
+                releaseKeystore != null -> signingConfigs.getByName("release")
+                // Test releases before the real key is set up: the optimized build,
+                // signed with the machine's debug key so it can be installed.
+                System.getenv("SIGN_RELEASE_WITH_DEBUG_KEY") == "true" -> signingConfigs.getByName("debug")
+                else -> null
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

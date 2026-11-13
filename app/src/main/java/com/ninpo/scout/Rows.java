@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-/** Fills a list with rows separated by hairlines, the list-card pattern from the design system. */
+/** Fills a list with rows separated by hairlines (the app's list-card pattern). */
 final class Rows {
 
     private Rows() {}

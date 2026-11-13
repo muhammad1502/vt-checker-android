@@ -8,7 +8,7 @@
     <dimen name="card_padding_v">28dp</dimen>
     <dimen name="card_gap">20dp</dimen>
     <dimen name="row_padding_v">20dp</dimen>
-    <!-- 48dp rather than the web system's 44px: Android's minimum touch target. -->
+    <!-- 48dp: Android's minimum touch target. -->
     <dimen name="button_height">48dp</dimen>
     <dimen name="field_radius">12dp</dimen>
     <dimen name="badge_size">32dp</dimen>

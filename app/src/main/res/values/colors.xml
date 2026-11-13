@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Light theme tokens, matching the apple-web-design system. values-night/colors.xml
+  Light theme colour tokens (an Apple-style palette). values-night/colors.xml
   holds the dark values under the same names, so layouts never hardcode a colour.
   Contrast was checked for every text and control pair used (WCAG 2.2 AA).
 -->

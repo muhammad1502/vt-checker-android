@@ -15,8 +15,8 @@ import androidx.core.content.ContextCompat;
 
 /**
  * Switching Appearance recreates the screen, which on its own is a hard cut. This
- * keeps a picture of the old screen and fades it out over the new one, like the
- * design system's theme crossfade. It only changes colour, so it isn't movement.
+ * keeps a picture of the old screen and fades it out over the new one: a colour
+ * crossfade with no movement.
  */
 final class ThemeFade {
 
@@ -60,7 +60,7 @@ final class ThemeFade {
         cover.animate()
                 .alpha(0f)
                 .setDuration(DURATION_MS)
-                // cubic-bezier(.25,.1,.25,1), the design system's --ease-fade.
+                // cubic-bezier(.25,.1,.25,1): an even fade with a soft start and end.
                 .setInterpolator(new PathInterpolator(0.25f, 0.1f, 0.25f, 1f))
                 .withEndAction(() -> root.removeView(cover))
                 .start();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Press-in, like the web system's button :active scale(.98). Animators follow the
+  Press-in to 98%, the same feedback on every button. Animators follow the
   system animation scale, so "Remove animations" turns this off.
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">

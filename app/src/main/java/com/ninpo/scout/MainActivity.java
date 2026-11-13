@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements CheckFlow.Host {
         }
         if (showingError) return;
         status.setTextColor(ContextCompat.getColor(this, R.color.text_2));
-        ViewCompat.setAccessibilityLiveRegion(status, ViewCompat.ACCESSIBILITY_LIVE_REGION_NONE);
+        status.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_NONE);
         status.setMaxLines(Integer.MAX_VALUE);
         if (text == null || TextUtils.getTrimmedLength(text) == 0) {
             status.setText(R.string.check_helper);
@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements CheckFlow.Host {
         showingError = true;
         status.setMaxLines(Integer.MAX_VALUE);
         status.setTextColor(ContextCompat.getColor(this, R.color.error));
-        ViewCompat.setAccessibilityLiveRegion(status, ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE);
+        status.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
         status.setText(message);
     }
 
@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements CheckFlow.Host {
     }
 
     /**
-     * The "settle" effect from the web design system: cards rise 32dp and grow from 96%
+     * The "settle" effect: cards rise 32dp and grow from 96%
      * as they move through the bottom 30% of the screen. Driven only by scroll position,
      * so everything is visible and in place without scrolling, and it switches off when
      * the system's "Remove animations" setting is on.

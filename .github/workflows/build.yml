@@ -1,12 +1,13 @@
 name: Build
 
-# Runs the tests and lint and builds the app on every push and pull request.
+# Runs the tests and lint and builds the app on every branch push and pull request.
 # The debug APK is attached to each run (Actions tab > the run > Artifacts) so it
 # can be installed on a phone for testing. The App Bundle is built only to prove it
 # still builds; it is unsigned, so it can't be uploaded to Google Play as is.
 
 on:
   push:
+    branches: ["**"]
   pull_request:
 
 permissions:

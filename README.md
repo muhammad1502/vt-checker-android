@@ -8,6 +8,10 @@ An Android app by Ninpo Inc. that adds **Check on VirusTotal** to the text-selec
   <img src="docs/screenshots/home-defanged-link.png" width="240" alt="A defanged link typed into the Check field, shown cleaned up below it">
 </p>
 
+## Download
+
+Get the latest APK from the [Releases page](../../releases) and open it on your phone; Android asks once to allow installs from the app you opened it with. Ninpo Scout needs Android 8.0 or later. What changed in each version is in the [changelog](CHANGELOG.md).
+
 ## What it does
 
 - **Works from any app.** Long-press text, open the selection menu (⋮ on many phones), tap Check on VirusTotal. Sharing a link to the app works too, and so does long-pressing the app icon and tapping **Check copied text**.
@@ -53,7 +57,7 @@ VirusTotal redirects that to the right report (`/gui/url/…`, `/gui/domain/…`
 | `app/src/main/java/com/ninpo/scout/Appearance.java`, `ScoutApp.java` | The Match device / Light / Dark setting, saved and re-applied at launch |
 | `app/src/main/res/values/colors.xml`, `values-night/colors.xml` | Light and dark color tokens |
 
-The design follows the apple-web-design system: its color tokens, type scale and spacing, the Inter typeface, one pill button style, and WCAG 2.2 AA contrast in both themes.
+The design is Apple-inspired: matched light and dark color tokens, Apple's type scale and spacing, the Inter typeface, one pill button style, and WCAG 2.2 AA contrast in both themes.
 
 ## Building
 
@@ -69,9 +73,19 @@ Requires Android Studio (or JDK 17+ and the Android SDK with platform 36).
                                  # renders screens to app/build/screenshots/
 ```
 
-Every push to GitHub runs the tests and lint and builds the app (`.github/workflows/build.yml`). Each run attaches a test APK: open the Actions tab, pick the run and download it under Artifacts.
+Every push to a branch runs the tests and lint and builds the app (`.github/workflows/build.yml`). Each run attaches a test APK: open the Actions tab, pick the run and download it under Artifacts.
 
 The application ID is `com.ninpo.scout`. It can't change once the app is on Google Play. Version 1.0 was called VT Checker and used `com.example.vtchecker`, so phones with that build will show two apps until the old one is removed.
+
+## Releasing a new version
+
+1. Raise `versionCode` and `versionName` in `app/build.gradle.kts`.
+2. Add a `## <version>` section at the top of [`CHANGELOG.md`](CHANGELOG.md). It becomes the release notes.
+3. Tag the commit with the version and push the tag: `git tag 2.1 && git push origin 2.1`.
+
+GitHub then tests and builds the app and publishes the release with the APK attached (`.github/workflows/release.yml`).
+
+**Signing.** Add four repository secrets under Settings > Secrets and variables > Actions: `SIGNING_KEYSTORE_BASE64` (the keystore file encoded with `base64 -w0 release.jks` on Linux or `base64 -i release.jks` on macOS), `SIGNING_STORE_PASSWORD`, `SIGNING_KEY_ALIAS` and `SIGNING_KEY_PASSWORD`. With them, releases carry an APK signed with Ninpo's key, and the signed App Bundle for Google Play is kept with the workflow run. Without them, a release carries a test build signed with a temporary key and is marked as a pre-release; after adding the secrets, run the Release workflow again on the same tag from the Actions tab to replace it. Keep the keystore safe and backed up: Android only installs updates signed with the same key.
 
 ## Maintenance
 
