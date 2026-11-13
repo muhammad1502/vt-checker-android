@@ -1,4 +1,4 @@
-package com.ninpo.vtchecker;
+package com.ninpo.scout;
 
 import static org.junit.Assume.assumeTrue;
 
@@ -41,7 +41,7 @@ public class ScreenshotTest {
 
     @Before
     public void onlyWhenAsked() {
-        assumeTrue(Boolean.getBoolean("vt.screenshots"));
+        assumeTrue(Boolean.getBoolean("scout.screenshots"));
     }
 
     @Test
@@ -127,7 +127,7 @@ public class ScreenshotTest {
 
     private static void captureCheck(String name, String text, boolean noticeSeen) throws IOException {
         Context app = ApplicationProvider.getApplicationContext();
-        app.getSharedPreferences("vt_checker", Context.MODE_PRIVATE)
+        app.getSharedPreferences("scout", Context.MODE_PRIVATE)
                 .edit().putBoolean("privacy_notice_seen", noticeSeen).commit();
         android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_PROCESS_TEXT)
                 .setClass(app, CheckActivity.class)
@@ -152,7 +152,7 @@ public class ScreenshotTest {
         Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(background);
         view.draw(canvas);
-        File dir = new File(System.getProperty("vt.screenshotDir", "build/screenshots"));
+        File dir = new File(System.getProperty("scout.screenshotDir", "build/screenshots"));
         if (!dir.isDirectory() && !dir.mkdirs()) throw new IOException("can't create " + dir);
         try (FileOutputStream out = new FileOutputStream(new File(dir, name + ".png"))) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);

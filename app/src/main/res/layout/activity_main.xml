@@ -41,14 +41,14 @@
                     android:src="@drawable/ic_brand_mark" />
 
                 <TextView
-                    style="@style/VTChecker.Text.Headline"
+                    style="@style/Scout.Text.Headline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="@string/hero_title" />
 
                 <TextView
-                    style="@style/VTChecker.Text.Subhead"
+                    style="@style/Scout.Text.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -56,13 +56,13 @@
 
                 <LinearLayout
                     android:id="@+id/check_card"
-                    style="@style/VTChecker.Card"
+                    style="@style/Scout.Card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp">
 
                     <TextView
-                        style="@style/VTChecker.Text.CardTitle"
+                        style="@style/Scout.Text.CardTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/check_title" />
@@ -85,13 +85,13 @@
                             android:importantForAutofill="no"
                             android:inputType="textUri|textNoSuggestions"
                             android:minHeight="56dp"
-                            android:textAppearance="@style/TextAppearance.VTChecker.Body"
+                            android:textAppearance="@style/TextAppearance.Scout.Body"
                             android:textColor="@color/text" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/status"
-                        style="@style/VTChecker.Text.Footnote"
+                        style="@style/Scout.Text.Footnote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -109,13 +109,13 @@
 
                 <LinearLayout
                     android:id="@+id/howto_card"
-                    style="@style/VTChecker.Card"
+                    style="@style/Scout.Card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/card_gap">
 
                     <TextView
-                        style="@style/VTChecker.Text.CardTitle"
+                        style="@style/Scout.Text.CardTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/howto_title" />
@@ -127,7 +127,7 @@
                         android:orientation="vertical" />
 
                     <TextView
-                        style="@style/VTChecker.Text.Footnote"
+                        style="@style/Scout.Text.Footnote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
@@ -136,13 +136,13 @@
 
                 <LinearLayout
                     android:id="@+id/types_card"
-                    style="@style/VTChecker.Card"
+                    style="@style/Scout.Card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/card_gap">
 
                     <TextView
-                        style="@style/VTChecker.Text.CardTitle"
+                        style="@style/Scout.Text.CardTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/types_title" />
@@ -156,27 +156,27 @@
 
                 <LinearLayout
                     android:id="@+id/privacy_card"
-                    style="@style/VTChecker.Card"
+                    style="@style/Scout.Card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/card_gap"
                     android:paddingBottom="16dp">
 
                     <TextView
-                        style="@style/VTChecker.Text.CardTitle"
+                        style="@style/Scout.Text.CardTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/privacy_title" />
 
                     <TextView
-                        style="@style/VTChecker.Text.Body"
+                        style="@style/Scout.Text.Body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/privacy_body_1" />
 
                     <TextView
-                        style="@style/VTChecker.Text.Body"
+                        style="@style/Scout.Text.Body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -184,7 +184,7 @@
 
                     <TextView
                         android:id="@+id/privacy_link"
-                        style="@style/VTChecker.Text.Link"
+                        style="@style/Scout.Text.Link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -196,14 +196,14 @@
 
                 <TextView
                     android:id="@+id/footer_version"
-                    style="@style/VTChecker.Text.Legal"
+                    style="@style/Scout.Text.Legal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    tools:text="VT Checker 2.0 by Ninpo Inc." />
+                    tools:text="Ninpo Scout 2.0 by Ninpo Inc." />
 
                 <TextView
-                    style="@style/VTChecker.Text.Legal"
+                    style="@style/Scout.Text.Legal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -211,11 +211,11 @@
 
                 <TextView
                     android:id="@+id/licenses_link"
-                    style="@style/VTChecker.Text.Link"
+                    style="@style/Scout.Text.Link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/footer_licenses"
-                    android:textAppearance="@style/TextAppearance.VTChecker.Legal" />
+                    android:textAppearance="@style/TextAppearance.Scout.Legal" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

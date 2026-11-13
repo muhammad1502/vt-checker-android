@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VT Checker</string>
+    <string name="app_name">Ninpo Scout</string>
 
     <!-- The text-selection menu item and the Share sheet target. -->
     <string name="check_on_virustotal">Check on VirusTotal</string>
@@ -11,7 +11,7 @@
     <string name="type_sha1">SHA-1 file hash</string>
     <string name="type_sha256">SHA-256 file hash</string>
 
-    <string name="hero_title">VT Checker</string>
+    <string name="hero_title">Ninpo Scout</string>
     <string name="hero_subtitle">Check links, domains, IP addresses and file hashes on VirusTotal from any app.</string>
 
     <string name="check_title">Check now</string>
@@ -50,17 +50,17 @@
     <string name="types_defanged_meta">Such as hxxp://example[.]com or 8.8.8[.]8</string>
 
     <string name="privacy_title">Privacy</string>
-    <string name="privacy_body_1">VT Checker has no account, no ads and no tracking, and it can\'t connect to the internet itself. Your browser opens VirusTotal with only the link, domain, IP address or hash, never the rest of the text you selected.</string>
+    <string name="privacy_body_1">Ninpo Scout has no account, no ads and no tracking, and it can\'t connect to the internet itself. Your browser opens VirusTotal with only the link, domain, IP address or hash, never the rest of the text you selected.</string>
     <string name="privacy_body_2">VirusTotal scans what you check and shares it with the security community, so don\'t check private links, like password reset or shared document links.</string>
     <string name="privacy_link">Read VirusTotal\'s privacy notice</string>
 
-    <string name="footer_made_by">VT Checker %1$s by Ninpo Inc.</string>
+    <string name="footer_made_by">Ninpo Scout %1$s by Ninpo Inc.</string>
     <string name="footer_disclaimer">Not affiliated with or endorsed by VirusTotal.</string>
     <string name="footer_licenses">Open-source licenses</string>
 
     <string name="picker_title">Choose what to check</string>
     <string name="nothing_title">Nothing to check</string>
-    <string name="nothing_body">VT Checker looks for links, domains, IP addresses and file hashes, and there isn\'t one in the selected text.</string>
+    <string name="nothing_body">Ninpo Scout looks for links, domains, IP addresses and file hashes, and there isn\'t one in the selected text.</string>
     <string name="nothing_empty_body">No text was selected.</string>
     <string name="notice_title">Before your first check</string>
     <string name="notice_body">VirusTotal scans what you check and shares it with the security community. Don\'t check private links, like password reset or shared document links.</string>

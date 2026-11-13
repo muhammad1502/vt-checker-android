@@ -1,4 +1,4 @@
-VT Checker includes the following open-source software.
+Ninpo Scout includes the following open-source software.
 
 
 INTER TYPEFACE (fonts)

@@ -1,4 +1,4 @@
-package com.ninpo.vtchecker;
+package com.ninpo.scout;
 
 import static org.junit.Assert.assertEquals;
 

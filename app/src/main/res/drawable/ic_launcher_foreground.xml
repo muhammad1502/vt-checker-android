@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  VT Checker mark: a magnifier with a check inside it. Drawn on the 108dp adaptive
+  Ninpo Scout mark: a magnifier with a check inside it. Drawn on the 108dp adaptive
   icon canvas and kept inside the 66dp safe zone, so every launcher mask shows all of it.
   Also used as the monochrome layer for themed icons on Android 13+.
 -->

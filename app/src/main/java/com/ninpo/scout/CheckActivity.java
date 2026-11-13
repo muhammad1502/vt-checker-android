@@ -1,4 +1,4 @@
-package com.ninpo.vtchecker;
+package com.ninpo.scout;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-# VT Checker
+# Ninpo Scout
 
 An Android app by Ninpo Inc. that adds **Check on VirusTotal** to the text-selection menu and the Share sheet. Select a link, domain, IP address or file hash in any app, choose Check on VirusTotal, and its VirusTotal report opens over the app you were in.
 
@@ -36,12 +36,12 @@ VirusTotal redirects that to the right report (`/gui/url/…`, `/gui/domain/…`
 
 | Path | What it is |
 |---|---|
-| `app/src/main/java/com/ninpo/vtchecker/IndicatorParser.java` | Finds and cleans up links, domains, IPs and hashes in text |
-| `app/src/main/java/com/ninpo/vtchecker/Tlds.java` | IANA top-level domain list, so `config.yaml` isn't mistaken for a domain |
-| `app/src/main/java/com/ninpo/vtchecker/VirusTotal.java` | Builds the VirusTotal address |
-| `app/src/main/java/com/ninpo/vtchecker/CheckActivity.java` | The text-selection and Share handler (no screen of its own) |
-| `app/src/main/java/com/ninpo/vtchecker/CheckFlow.java` | Choosing an item, the first-check notice, opening the Custom Tab |
-| `app/src/main/java/com/ninpo/vtchecker/MainActivity.java` | Home screen |
+| `app/src/main/java/com/ninpo/scout/IndicatorParser.java` | Finds and cleans up links, domains, IPs and hashes in text |
+| `app/src/main/java/com/ninpo/scout/Tlds.java` | IANA top-level domain list, so `config.yaml` isn't mistaken for a domain |
+| `app/src/main/java/com/ninpo/scout/VirusTotal.java` | Builds the VirusTotal address |
+| `app/src/main/java/com/ninpo/scout/CheckActivity.java` | The text-selection and Share handler (no screen of its own) |
+| `app/src/main/java/com/ninpo/scout/CheckFlow.java` | Choosing an item, the first-check notice, opening the Custom Tab |
+| `app/src/main/java/com/ninpo/scout/MainActivity.java` | Home screen |
 | `app/src/main/res/values/colors.xml`, `values-night/colors.xml` | Light and dark color tokens |
 
 The design follows the apple-web-design system: its color tokens, type scale and spacing, the Inter typeface, one pill button style, and WCAG 2.2 AA contrast in both themes.
@@ -59,7 +59,7 @@ Requires Android Studio (or JDK 17+ and the Android SDK with platform 36).
                                  # renders screens to app/build/screenshots/
 ```
 
-The application ID is `com.ninpo.vtchecker`. Version 1.0 used `com.example.vtchecker`, so phones with the old build installed will show two apps until the old one is removed.
+The application ID is `com.ninpo.scout`. It can't change once the app is on Google Play. Version 1.0 was called VT Checker and used `com.example.vtchecker`, so phones with that build will show two apps until the old one is removed.
 
 ## Maintenance
 
@@ -70,4 +70,4 @@ The application ID is `com.ninpo.vtchecker`. Version 1.0 used `com.example.vtche
 
 Inter (SIL Open Font License 1.1), Lucide and Feather icons (ISC and MIT), AndroidX and Material Components (Apache 2.0). The full texts ship in the app under Open-source licenses.
 
-VT Checker is not affiliated with or endorsed by VirusTotal.
+Ninpo Scout is not affiliated with or endorsed by VirusTotal.

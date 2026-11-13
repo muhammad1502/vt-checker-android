@@ -13,14 +13,14 @@
 
     <TextView
         android:id="@+id/row_title"
-        style="@style/VTChecker.Text.RowTitle"
+        style="@style/Scout.Text.RowTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="IP addresses" />
 
     <TextView
         android:id="@+id/row_meta"
-        style="@style/VTChecker.Text.Footnote"
+        style="@style/Scout.Text.Footnote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"

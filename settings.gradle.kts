@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "VT Checker"
+rootProject.name = "Ninpo Scout"
 include(":app")

@@ -1,9 +1,9 @@
-package com.ninpo.vtchecker;
+package com.ninpo.scout;
 
-import static com.ninpo.vtchecker.Indicator.Type.DOMAIN;
-import static com.ninpo.vtchecker.Indicator.Type.FILE_HASH;
-import static com.ninpo.vtchecker.Indicator.Type.IP_ADDRESS;
-import static com.ninpo.vtchecker.Indicator.Type.URL;
+import static com.ninpo.scout.Indicator.Type.DOMAIN;
+import static com.ninpo.scout.Indicator.Type.FILE_HASH;
+import static com.ninpo.scout.Indicator.Type.IP_ADDRESS;
+import static com.ninpo.scout.Indicator.Type.URL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

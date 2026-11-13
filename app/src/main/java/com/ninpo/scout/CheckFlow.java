@@ -1,4 +1,4 @@
-package com.ninpo.vtchecker;
+package com.ninpo.scout;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 final class CheckFlow {
 
-    private static final String PREFS = "vt_checker";
+    private static final String PREFS = "scout";
     private static final String KEY_NOTICE_SEEN = "privacy_notice_seen";
 
     private CheckFlow() {}

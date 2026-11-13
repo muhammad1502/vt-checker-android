@@ -1,4 +1,4 @@
-package com.ninpo.vtchecker;
+package com.ninpo.scout;
 
 import android.animation.ValueAnimator;
 import android.content.ClipData;

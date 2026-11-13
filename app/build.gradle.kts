@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ninpo.vtchecker"
+    namespace = "com.ninpo.scout"
     compileSdk {
         version = release(36)
     }
@@ -12,7 +12,7 @@ android {
         // Google Play rejects com.example IDs, so the app now lives under Ninpo's
         // namespace. Devices with the old com.example build will see two apps until
         // the old one is uninstalled.
-        applicationId = "com.ninpo.vtchecker"
+        applicationId = "com.ninpo.scout"
         minSdk = 26
         targetSdk = 36
         versionCode = 2
@@ -56,8 +56,8 @@ android {
                     "--add-opens=java.base/java.io=ALL-UNNAMED"
                 )
                 // Screenshot tests only run when asked for: ./gradlew testDebugUnitTest -Pscreenshots
-                it.systemProperty("vt.screenshots", project.hasProperty("screenshots").toString())
-                it.systemProperty("vt.screenshotDir", layout.buildDirectory.dir("screenshots").get().asFile.path)
+                it.systemProperty("scout.screenshots", project.hasProperty("screenshots").toString())
+                it.systemProperty("scout.screenshotDir", layout.buildDirectory.dir("screenshots").get().asFile.path)
             }
         }
     }

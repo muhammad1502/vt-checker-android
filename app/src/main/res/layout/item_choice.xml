@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/choice_value"
-        style="@style/VTChecker.Text.Body"
+        style="@style/Scout.Text.Body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="middle"
@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/choice_type"
-        style="@style/VTChecker.Text.Footnote"
+        style="@style/Scout.Text.Footnote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"

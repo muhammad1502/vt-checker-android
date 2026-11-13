@@ -1,4 +1,4 @@
-package com.ninpo.vtchecker;
+package com.ninpo.scout;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -37,7 +37,7 @@ public class CheckActivityTest {
     }
 
     private void noticeAlreadySeen() {
-        app.getSharedPreferences("vt_checker", Context.MODE_PRIVATE)
+        app.getSharedPreferences("scout", Context.MODE_PRIVATE)
                 .edit().putBoolean("privacy_notice_seen", true).commit();
     }
 
@@ -96,7 +96,7 @@ public class CheckActivityTest {
         ShadowLooper.idleMainLooper();
         assertEquals("https://www.virustotal.com/gui/search?query=8.8.8.8", openedUrl(activity));
         assertTrue(activity.isFinishing());
-        assertTrue(app.getSharedPreferences("vt_checker", Context.MODE_PRIVATE)
+        assertTrue(app.getSharedPreferences("scout", Context.MODE_PRIVATE)
                 .getBoolean("privacy_notice_seen", false));
     }
 
@@ -107,7 +107,7 @@ public class CheckActivityTest {
         ShadowLooper.idleMainLooper();
         assertNull(shadowOf(activity).getNextStartedActivity());
         assertTrue(activity.isFinishing());
-        assertFalse(app.getSharedPreferences("vt_checker", Context.MODE_PRIVATE)
+        assertFalse(app.getSharedPreferences("scout", Context.MODE_PRIVATE)
                 .getBoolean("privacy_notice_seen", false));
     }
 
