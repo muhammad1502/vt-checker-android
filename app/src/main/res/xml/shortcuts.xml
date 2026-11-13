@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Long-press the app icon: "Check copied text". Handled in MainActivity. -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_clipboard"
+        android:shortcutId="check_clipboard"
+        android:shortcutLongLabel="@string/shortcut_clipboard_long"
+        android:shortcutShortLabel="@string/shortcut_clipboard_short">
+        <intent
+            android:action="com.ninpo.scout.action.CHECK_CLIPBOARD"
+            android:targetClass="com.ninpo.scout.MainActivity"
+            android:targetPackage="com.ninpo.scout" />
+    </shortcut>
+</shortcuts>

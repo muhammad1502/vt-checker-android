@@ -1,9 +1,12 @@
 package com.ninpo.scout;
 
 import android.animation.ValueAnimator;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +39,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** The home screen: a field to check something right away, how-to, and privacy notes. */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CheckFlow.Host {
+
+    /**
+     * ClipDescription.EXTRA_IS_SENSITIVE, written out because the constant is API 33+
+     * while apps were asked to set the same key on older versions too.
+     */
+    private static final String EXTRA_IS_SENSITIVE = "android.content.extra.IS_SENSITIVE";
+
 
     private static final int[][] STEPS = {
             {R.string.step_1_title, R.string.step_1_body},
@@ -42,8 +54,12 @@ public class MainActivity extends AppCompatActivity {
             {R.string.step_3_title, R.string.step_3_body},
     };
 
+    /** Sent by the "Check copied text" launcher shortcut (res/xml/shortcuts.xml). */
+    static final String ACTION_CHECK_CLIPBOARD = "com.ninpo.scout.action.CHECK_CLIPBOARD";
 
     private final CheckFlow.Session session = new CheckFlow.Session();
+    private final ActivityResultLauncher<Intent> report = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> { });
     private final List<View> cards = new ArrayList<>();
 
     private NestedScrollView scroll;
@@ -53,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView status;
     private boolean showingError;
     private boolean hasItem;
+    private boolean checkClipboardOnFocus;
     private float settleDistance;
 
     @Override
@@ -113,6 +130,31 @@ public class MainActivity extends AppCompatActivity {
 
         scroll.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, x, y, oldX, oldY) -> settle());
         scroll.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> settle());
+
+        checkClipboardOnFocus = savedInstanceState == null
+                && ACTION_CHECK_CLIPBOARD.equals(getIntent().getAction());
+    }
+
+    @Override
+    protected void onNewIntent(@NonNull Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        if (ACTION_CHECK_CLIPBOARD.equals(intent.getAction())) {
+            checkClipboardOnFocus = true;
+            if (hasWindowFocus()) onWindowFocusChanged(true);
+        }
+    }
+
+    /**
+     * Android 10 and later only let the app in focus read the clipboard, so the
+     * shortcut's check waits until the window has focus.
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (!hasFocus || !checkClipboardOnFocus) return;
+        checkClipboardOnFocus = false;
+        if (paste()) check();
     }
 
     @Override
@@ -154,7 +196,22 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         hideKeyboard();
-        CheckFlow.start(this, found, session, null);
+        CheckFlow.start(this, found, session, this);
+    }
+
+    @Override
+    public void openReport(@NonNull String url) {
+        session.coolDown();
+        try {
+            report.launch(CheckFlow.reportIntent(this, url));
+        } catch (ActivityNotFoundException e) {
+            CheckFlow.noBrowser(this);
+        }
+    }
+
+    @Override
+    public void cancelled() {
+        // Nothing to undo: the text stays in the field.
     }
 
     /**
@@ -213,14 +270,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void paste() {
+    /** Puts the clipboard text in the field. Returns false, with a message, if it couldn't. */
+    private boolean paste() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = clipboard == null ? null : clipboard.getPrimaryClip();
-        if (clip == null || clip.getItemCount() == 0) return;
+        if (clip == null || clip.getItemCount() == 0) {
+            showError(R.string.clipboard_empty);
+            return false;
+        }
+        // Password managers and keyboards flag copied secrets. Never paste those:
+        // whatever is checked gets scanned and shared by VirusTotal.
+        ClipDescription description = clip.getDescription();
+        if (description != null && description.getExtras() != null
+                && description.getExtras().getBoolean(EXTRA_IS_SENSITIVE)) {
+            showError(R.string.clipboard_sensitive);
+            return false;
+        }
         CharSequence text = clip.getItemAt(0).coerceToText(this);
-        if (TextUtils.isEmpty(text)) return;
+        if (TextUtils.getTrimmedLength(text) == 0) {
+            showError(R.string.clipboard_empty);
+            return false;
+        }
         input.setText(text);
         input.setSelection(input.length());
+        return true;
     }
 
     private void hideKeyboard() {

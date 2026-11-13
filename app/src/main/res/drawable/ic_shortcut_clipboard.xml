@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shortcut icon: the paste glyph on the app's blue, as an adaptive icon so launchers can mask it. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@drawable/ic_shortcut_clipboard_glyph" />
+</adaptive-icon>

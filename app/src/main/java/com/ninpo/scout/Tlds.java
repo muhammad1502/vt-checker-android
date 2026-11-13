@@ -12,7 +12,7 @@ import java.util.Set;
  * Source: https://data.iana.org/TLD/tlds-alpha-by-domain.txt
  * Version 2026111300, Last Updated Fri Nov 13 07:07:01 2026 UTC
  *
- * Refresh it when ICANN delegates new TLDs: download that file and replace the list.
+ * Regenerate with scripts/update_tlds.py (a monthly GitHub Actions job does this).
  */
 final class Tlds {
 

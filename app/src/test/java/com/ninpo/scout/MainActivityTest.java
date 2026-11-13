@@ -2,12 +2,16 @@ package com.ninpo.scout;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.shadows.ShadowDialog;
 import org.robolectric.shadows.ShadowLooper;
 
@@ -46,8 +51,75 @@ public class MainActivityTest {
         MainActivity activity = launch();
         ((EditText) activity.findViewById(R.id.input)).setText("8.8.8.8");
         activity.findViewById(R.id.check_button).performClick();
-        Intent next = shadowOf(activity).getNextStartedActivity();
+        Intent next = shadowOf(activity).getNextStartedActivityForResult().intent;
         assertEquals("https://www.virustotal.com/gui/search?query=8.8.8.8", next.getDataString());
+    }
+
+    private static ActivityController<MainActivity> launchFromShortcut() {
+        Intent shortcut = new Intent(MainActivity.ACTION_CHECK_CLIPBOARD)
+                .setClass(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        ActivityController<MainActivity> controller = Robolectric.buildActivity(MainActivity.class, shortcut).setup();
+        // The clipboard can only be read once the window has focus.
+        controller.windowFocusChanged(true);
+        ShadowLooper.idleMainLooper();
+        return controller;
+    }
+
+    private static void copy(ClipData clip) {
+        ClipboardManager clipboard = (ClipboardManager) ApplicationProvider.getApplicationContext()
+                .getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboard.setPrimaryClip(clip);
+    }
+
+    @Test
+    public void shortcutChecksCopiedText() {
+        ApplicationProvider.getApplicationContext().getSharedPreferences("scout", Context.MODE_PRIVATE)
+                .edit().putBoolean("privacy_notice_seen", true).commit();
+        copy(ClipData.newPlainText("copied", "Suspicious sender: billing@paypa1-support.com"));
+        MainActivity activity = launchFromShortcut().get();
+        assertEquals("Suspicious sender: billing@paypa1-support.com",
+                ((EditText) activity.findViewById(R.id.input)).getText().toString());
+        Intent next = shadowOf(activity).getNextStartedActivityForResult().intent;
+        assertEquals("https://www.virustotal.com/gui/search?query=paypa1-support.com", next.getDataString());
+    }
+
+    @Test
+    public void shortcutWithNothingCopiedExplains() {
+        MainActivity activity = launchFromShortcut().get();
+        TextView status = activity.findViewById(R.id.status);
+        assertEquals(activity.getString(R.string.clipboard_empty), status.getText().toString());
+        assertNull(shadowOf(activity).getNextStartedActivityForResult());
+    }
+
+    // Password managers mark copied secrets; those must never reach VirusTotal.
+    @Test
+    public void textMarkedSensitiveIsNeverPasted() {
+        ClipData clip = ClipData.newPlainText("secret", "hunter2.example.com");
+        PersistableBundle extras = new PersistableBundle();
+        extras.putBoolean("android.content.extra.IS_SENSITIVE", true);
+        clip.getDescription().setExtras(extras);
+        copy(clip);
+        MainActivity activity = launchFromShortcut().get();
+        assertEquals("", ((EditText) activity.findViewById(R.id.input)).getText().toString());
+        TextView status = activity.findViewById(R.id.status);
+        assertEquals(activity.getString(R.string.clipboard_sensitive), status.getText().toString());
+        assertNull(shadowOf(activity).getNextStartedActivityForResult());
+    }
+
+    @Test
+    public void shortcutIconAndLabelsLoad() {
+        Context context = ApplicationProvider.getApplicationContext();
+        assertNotNull(androidx.core.content.ContextCompat.getDrawable(context, R.drawable.ic_shortcut_clipboard));
+        assertTrue(context.getString(R.string.shortcut_clipboard_short).length() <= 10);
+        assertTrue(context.getString(R.string.shortcut_clipboard_long).length() <= 25);
+    }
+
+    @Test
+    public void normalLaunchDoesNotTouchTheClipboard() {
+        copy(ClipData.newPlainText("copied", "8.8.8.8"));
+        ActivityController<MainActivity> controller = Robolectric.buildActivity(MainActivity.class).setup();
+        controller.windowFocusChanged(true);
+        assertEquals("", ((EditText) controller.get().findViewById(R.id.input)).getText().toString());
     }
 
     @Test

@@ -26,6 +26,10 @@
     <string name="check_empty_error">Paste or type something to check first.</string>
     <string name="check_none_error">No link, domain, IP address or file hash found. Check the text and try again.</string>
     <string name="paste">Paste</string>
+    <string name="clipboard_empty">Nothing is copied yet. Copy a link, domain, IP address or hash, then try again.</string>
+    <string name="clipboard_sensitive">The copied text is marked as private, so it wasn\'t pasted.</string>
+    <string name="shortcut_clipboard_short">Clipboard</string>
+    <string name="shortcut_clipboard_long">Check copied text</string>
     <string name="clear_text">Clear text</string>
 
     <string name="howto_title">Use it in any app</string>
@@ -34,8 +38,8 @@
     <string name="step_2_title">Open the menu</string>
     <string name="step_2_body">In the menu over the text, tap ⋮ (More) if Check on VirusTotal isn\'t showing yet.</string>
     <string name="step_3_title">Tap Check on VirusTotal</string>
-    <string name="step_3_body">The report opens on virustotal.com. Close it to get back to where you were.</string>
-    <string name="howto_share">You can also share a link to Check on VirusTotal from any app\'s Share menu.</string>
+    <string name="step_3_body">The VirusTotal report opens over the app you\'re in. Close it to get back to where you were.</string>
+    <string name="howto_share">You can also share a link to Check on VirusTotal from any app\'s Share menu, or long-press the Ninpo Scout icon and tap Check copied text.</string>
 
     <string name="types_title">What you can check</string>
     <string name="types_links">Links</string>
